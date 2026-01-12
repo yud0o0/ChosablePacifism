@@ -1,0 +1,11 @@
+{
+	"required": true,
+	"package": "yud0o0.main.mixin.client",
+	"compatibilityLevel": "JAVA_21",
+	"client": [
+		"ChoosablePacifismClientMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

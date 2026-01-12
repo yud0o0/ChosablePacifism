@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "cpacifism",
+	"version": "${version}",
+	"name": "ChosablePacifism",
+	"description": "Choose your pacifism.",
+	"authors": [
+		"yud0o0"
+	],
+	"contact": {
+		"sources": "https://github.com/yud0o0/ChosablePacifism"
+	},
+	"license": "MIT",
+	"icon": "assets/cpacifism/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"yud0o0.main.ChosablePacifism"
+		],
+		"client": [
+			"yud0o0.main.ChosablePacifismClient"
+		]
+	},
+	"mixins": [
+		"cpacifism.client.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.18.4",
+		"minecraft": "~1.21.8",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}
