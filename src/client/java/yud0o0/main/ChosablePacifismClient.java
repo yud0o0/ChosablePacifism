@@ -3,6 +3,8 @@ package yud0o0.main;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.command.CommandSource;
 import net.minecraft.text.Text;
 import yud0o0.main.config.CpacifismConfigClass;
 
@@ -30,6 +32,15 @@ public class ChosablePacifismClient implements ClientModInitializer {
 					.then(ClientCommandManager.literal("playerlist")
 									.then(ClientCommandManager.literal("add")
 											.then(ClientCommandManager.argument("nickname", com.mojang.brigadier.arguments.StringArgumentType.word())
+													.suggests((context, builder) -> {
+														var networkHandler = MinecraftClient.getInstance().getNetworkHandler();
+														if (networkHandler != null) {
+															var playerNames = networkHandler.getPlayerList().stream()
+																	.map(entry -> entry.getProfile().getName());
+															return net.minecraft.command.CommandSource.suggestMatching(playerNames, builder);
+														}
+														return builder.buildFuture();
+													})
 													.executes(context -> {
 														String name = com.mojang.brigadier.arguments.StringArgumentType.getString(context, "nickname");
 														if (!CONFIG.friends.contains(name)) {
@@ -41,6 +52,7 @@ public class ChosablePacifismClient implements ClientModInitializer {
 													})))
 									.then(ClientCommandManager.literal("remove")
 											.then(ClientCommandManager.argument("nickname", com.mojang.brigadier.arguments.StringArgumentType.word())
+													.suggests((context, builder) -> CommandSource.suggestMatching(CONFIG.friends, builder))
 													.executes(context -> {
 														String name = com.mojang.brigadier.arguments.StringArgumentType.getString(context, "nickname");
 														if (CONFIG.friends.remove(name)) {
